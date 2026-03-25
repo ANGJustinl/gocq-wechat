@@ -12,6 +12,7 @@ require (
 	github.com/fumiama/go-hide-param v0.1.4
 	github.com/lestrrat-go/file-rotatelogs v2.4.0+incompatible
 	github.com/mattn/go-colorable v0.1.13
+	github.com/mdp/qrterminal/v3 v3.2.0
 	github.com/pkg/errors v0.9.1
 	github.com/segmentio/asm v1.2.0
 	github.com/sirupsen/logrus v1.9.3
@@ -42,7 +43,6 @@ require (
 	github.com/kr/pretty v0.3.1 // indirect
 	github.com/lestrrat-go/strftime v1.0.6 // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect
-	github.com/mdp/qrterminal/v3 v3.2.0 // indirect
 	github.com/montanaflynn/stats v0.0.0-20171201202039-1bf9dbcd8cbe // indirect
 	github.com/pierrec/lz4/v4 v4.1.15 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
