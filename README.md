@@ -58,7 +58,7 @@ _Weixin/iLink -> OneBot v11 的单二进制实现。保留 OneBot HTTP/WS 形状
 2. 启动 `go-cqhttp`
 3. 在终端扫码登录微信
 
-详细配置见 [docs/config.md](/home/server/gocq-wechat/docs/config.md)，快速开始见 [docs/quick_start.md](/home/server/gocq-wechat/docs/quick_start.md)，支持面对照见 [docs/weixin_api_matrix.md](/home/server/gocq-wechat/docs/weixin_api_matrix.md)。
+详细配置见 [docs/config.md](https://github.com/ANGJustinl/gocq-wechat/docs/config.md)，快速开始见 [docs/quick_start.md](https://github.com/ANGJustinl/gocq-wechat/docs/quick_start.md)，支持面对照见 [docs/weixin_api_matrix.md](https://github.com/ANGJustinl/gocq-wechat/docs/weixin_api_matrix.md)。
 
 ## 当前支持的 OneBot 动作
 
