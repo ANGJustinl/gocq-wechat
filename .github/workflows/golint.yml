@@ -24,11 +24,11 @@ jobs:
           go test $(go list ./...)
 
       - name: Commit back
-        if: ${{ github.repository_owner == 'Mrs4s' && !github.event.pull_request }}
+        if: ${{ github.repository_owner == 'ANGJustinl' && !github.event.pull_request }}
         continue-on-error: true
         run: |
           git config --local user.name 'github-actions[bot]'
-          git config --local user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git config --local user.email '96008766+github-actions[bot]@users.noreply.github.com'
           git add --all
           git commit -m "ci(chore): Fix stylings"
           git push
