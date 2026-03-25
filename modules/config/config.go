@@ -26,6 +26,15 @@ type Reconnect struct {
 	Interval int  `yaml:"interval"`
 }
 
+// WeixinConfig Weixin 运行时配置
+type WeixinConfig struct {
+	APIBaseURL   string `yaml:"api-base-url"`
+	CDNBaseURL   string `yaml:"cdn-base-url"`
+	PollTimeout  int    `yaml:"poll-timeout"`
+	QRTimeout    int    `yaml:"qr-timeout"`
+	StateDir     string `yaml:"state-dir"`
+}
+
 // Account 账号配置
 type Account struct {
 	Uin                  int64        `yaml:"uin"`
@@ -54,7 +63,8 @@ type SignServer struct {
 
 // Config 总配置文件
 type Config struct {
-	Account   *Account `yaml:"account"`
+	Account   *Account      `yaml:"account"`
+	Weixin    *WeixinConfig `yaml:"weixin"`
 	Heartbeat struct {
 		Disabled bool `yaml:"disabled"`
 		Interval int  `yaml:"interval"`

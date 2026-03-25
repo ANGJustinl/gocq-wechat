@@ -33,6 +33,7 @@ import (
 // CQBot CQBot结构体,存储Bot实例相关配置
 type CQBot struct {
 	Client *client.QQClient
+	Weixin *WeixinRuntime
 
 	lock   sync.RWMutex
 	events []func(*Event)
@@ -107,6 +108,30 @@ func NewQQBot(cli *client.QQClient) *CQBot {
 	bot.Client.UserWantJoinGroupEvent.Subscribe(bot.groupJoinReqEvent)
 	bot.Client.OtherClientStatusChangedEvent.Subscribe(bot.otherClientStatusChangedEvent)
 	bot.Client.GroupDigestEvent.Subscribe(bot.groupEssenceMsg)
+	go func() {
+		if base.HeartbeatInterval == 0 {
+			log.Warn("警告: 心跳功能已关闭，若非预期，请检查配置文件。")
+			return
+		}
+		t := time.NewTicker(base.HeartbeatInterval)
+		for {
+			<-t.C
+			status := bot.weixinGetStatus()["data"]
+			bot.dispatchEvent("meta_event/heartbeat", global.MSG{
+				"status":   status,
+				"interval": base.HeartbeatInterval.Milliseconds(),
+			})
+		}
+	}()
+	return bot
+}
+
+// NewWeixinBot 初始化一个 WeixinBot 实例
+func NewWeixinBot(rt *WeixinRuntime) *CQBot {
+	bot := &CQBot{
+		Weixin:         rt,
+		nextTokenCache: utils.NewCache[*guildMemberPageToken](time.Second * 10),
+	}
 	go func() {
 		if base.HeartbeatInterval == 0 {
 			log.Warn("警告: 心跳功能已关闭，若非预期，请检查配置文件。")
@@ -597,7 +622,7 @@ func (bot *CQBot) event(typ string, others global.MSG) *event {
 		ev.SubType = sub
 	}
 	ev.Time = time.Now().Unix()
-	ev.SelfID = bot.Client.Uin
+	ev.SelfID = bot.SelfID()
 	ev.Others = others
 	return ev
 }

@@ -84,7 +84,7 @@ type httpCtx struct {
 const httpDefault = `
   - http: # HTTP 通信设置
       address: 0.0.0.0:5700 # HTTP监听地址
-      version: 11     # OneBot协议版本, 支持 11/12
+      version: 11     # OneBot协议版本, Weixin-only 分支仅支持 11
       timeout: 5      # 反向 HTTP 超时时间, 单位秒，<5 时将被忽略
       long-polling:   # 长轮询拓展
         enabled: false       # 是否开启
@@ -267,7 +267,12 @@ func runHTTP(bot *coolq.CQBot, node yaml.Node) {
 		// default v11
 		s.spec = onebot.V11
 	case 12:
-		s.spec = onebot.V12
+		if bot.IsWeixinMode() {
+			log.Warn("Weixin 模式仅支持 OneBot v11，已忽略 HTTP server version=12 配置")
+			s.spec = onebot.V11
+		} else {
+			s.spec = onebot.V12
+		}
 	}
 	switch {
 	case conf.Address != "":
@@ -359,7 +364,7 @@ func (c *HTTPClient) onBotPushEvent(e *coolq.Event) {
 	}
 
 	header := make(http.Header)
-	header.Set("X-Self-ID", strconv.FormatInt(c.bot.Client.Uin, 10))
+	header.Set("X-Self-ID", strconv.FormatInt(c.bot.SelfID(), 10))
 	header.Set("User-Agent", "CQHttp/4.15.0")
 	header.Set("Content-Type", "application/json")
 	if c.secret != "" {

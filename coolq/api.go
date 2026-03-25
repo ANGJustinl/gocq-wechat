@@ -1928,6 +1928,9 @@ func (bot *CQBot) CQSetGroupAnonymousBan(groupID int64, flag string, duration in
 // https://git.io/JtzMe
 // @route(get_status)
 func (bot *CQBot) CQGetStatus(spec *onebot.Spec) global.MSG {
+	if bot != nil && bot.IsWeixinMode() {
+		return bot.weixinGetStatus()
+	}
 	if spec.Version == 11 {
 		return OK(global.MSG{
 			"app_initialized": true,

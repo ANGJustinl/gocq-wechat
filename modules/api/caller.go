@@ -27,6 +27,9 @@ type Caller struct {
 
 // Call specific API
 func (c *Caller) Call(action string, spec *onebot.Spec, p Getter) global.MSG {
+	if c.bot.IsWeixinMode() {
+		return c.bot.CallWeixinAction(action, spec, p.Get)
+	}
 	for _, fn := range c.handlers {
 		if ret := fn(action, spec, p); ret != nil {
 			return ret

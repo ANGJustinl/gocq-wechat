@@ -49,6 +49,7 @@ var (
 	AccountToken      []byte                 // 存储 AccountToken 供登录使用
 	Account           *config.Account        // 账户配置
 	Reconnect         *config.Reconnect      // 重连配置
+	Weixin            *config.WeixinConfig   // Weixin 侧车配置
 	LogLevel          string                 // 日志等级
 	LogAging          = time.Hour * 24 * 365 // 日志时效
 	HeartbeatInterval = time.Second * 5      // 心跳间隔
@@ -99,6 +100,7 @@ func Init() {
 		Proxy = conf.Message.ProxyRewrite
 		Account = conf.Account
 		Reconnect = conf.Account.ReLogin
+		Weixin = conf.Weixin
 		Servers = conf.Servers
 		Database = conf.Database
 		LogLevel = conf.Output.LogLevel

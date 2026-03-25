@@ -6,9 +6,9 @@
 
 <div align="center">
 
-# go-cqhttp
+# go-cqhttp-weixin
 
-_✨ 基于 [Mirai](https://github.com/mamoe/mirai) 以及 [MiraiGo](https://github.com/Mrs4s/MiraiGo) 的 [OneBot](https://github.com/howmanybots/onebot/blob/master/README.md) Golang 原生实现 ✨_  
+_Weixin/iLink -> OneBot v11 的单二进制实现。保留 OneBot HTTP/WS 形状，底层接入已内联到 Go 主进程。_  
 
 
 </div>
@@ -42,12 +42,51 @@ _✨ 基于 [Mirai](https://github.com/mamoe/mirai) 以及 [MiraiGo](https://git
   <a href="https://github.com/Mrs4s/go-cqhttp/blob/master/CONTRIBUTING.md">参与贡献</a>
 </p>
 
-## 重要信息
-由于QQ官方针对协议库的围追堵截, 不断更新加密方案, 我们已无力继续维护此项目.
-建议Bot开发者尽快迁移至无头NTQQ项目 -> https://github.com/Mrs4s/go-cqhttp/issues/2471
+## 分支说明
+
+这个分支已经改成 Weixin-only：
+
+- 不再接入 QQ 协议、QQ 登录、qsign、sign-server
+- Go 主进程同时负责 OneBot v11 服务端、事件分发、二维码登录和 iLink 协议接入
+- 首版只支持私聊
+- `servers.*.version` 仅支持 `11`
+- 运行时不再依赖 Node.js 或独立 sidecar 进程
+
+启动顺序：
+
+1. 配置 `config.yml`
+2. 启动 `go-cqhttp`
+3. 在终端扫码登录微信
+
+详细配置见 [docs/config.md](/home/server/gocq-wechat/docs/config.md)，快速开始见 [docs/quick_start.md](/home/server/gocq-wechat/docs/quick_start.md)，支持面对照见 [docs/weixin_api_matrix.md](/home/server/gocq-wechat/docs/weixin_api_matrix.md)。
+
+## 当前支持的 OneBot 动作
+
+- `get_login_info`
+- `get_status`
+- `get_version_info`
+- `get_supported_actions`
+- `can_send_image`
+- `can_send_record`
+- `send_private_msg`
+- `send_msg`
+- `get_msg`
+- `get_stranger_info`
+- `get_friend_list`
+- `download_file`
+- `upload_private_file`
+- `.handle_quick_operation`
+
+其中：
+
+- `send_msg` 只支持私聊
+- `can_send_record = false`
+- 所有群、频道、管理类动作都会返回 `UNSUPPORTED_ACTION`
 
 ## 兼容性
-go-cqhttp 兼容 [OneBot-v11](https://github.com/botuniverse/onebot-11) 绝大多数内容，并在其基础上做了一些扩展，详情请看 go-cqhttp 的文档。
+这个分支兼容 [OneBot-v11](https://github.com/botuniverse/onebot-11) 的私聊主链路，并保留 HTTP / WS / 反向 WS 对外形状。当前不实现群、频道和管理类能力。
+
+下面的长表格大多继承自上游 README，未按 Weixin-only 分支逐项清洗；实际支持面以前面的“当前支持的 OneBot 动作”和 [docs/config.md](/home/server/gocq-wechat/docs/config.md) / [docs/quick_start.md](/home/server/gocq-wechat/docs/quick_start.md) 为准。
 
 ### 接口
 

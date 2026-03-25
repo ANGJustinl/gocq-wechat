@@ -161,7 +161,7 @@ func runWSServer(b *coolq.CQBot, node yaml.Node) {
 	}
 	filter.Add(s.filter)
 	s.handshake = fmt.Sprintf(`{"_post_method":2,"meta_event_type":"lifecycle","post_type":"meta_event","self_id":%d,"sub_type":"connect","time":%d}`,
-		b.Client.Uin, time.Now().Unix())
+		b.SelfID(), time.Now().Unix())
 	b.OnEventPush(s.onBotPushEvent)
 	mux := http.ServeMux{}
 	mux.HandleFunc("/event", s.event)
@@ -239,7 +239,7 @@ func (c *websocketClient) connect(typ, addr string, conptr **wsConn) {
 	log.Infof("开始尝试连接到反向WebSocket %s服务器: %v", typ, addr)
 	header := http.Header{
 		"X-Client-Role": []string{typ},
-		"X-Self-ID":     []string{strconv.FormatInt(c.bot.Client.Uin, 10)},
+		"X-Self-ID":     []string{strconv.FormatInt(c.bot.SelfID(), 10)},
 		"User-Agent":    []string{"CQHttp/4.15.0"},
 	}
 	if c.token != "" {
@@ -275,7 +275,7 @@ func (c *websocketClient) connect(typ, addr string, conptr **wsConn) {
 
 	switch typ {
 	case "Event", "Universal":
-		handshake := fmt.Sprintf(`{"meta_event_type":"lifecycle","post_type":"meta_event","self_id":%d,"sub_type":"connect","time":%d}`, c.bot.Client.Uin, time.Now().Unix())
+		handshake := fmt.Sprintf(`{"meta_event_type":"lifecycle","post_type":"meta_event","self_id":%d,"sub_type":"connect","time":%d}`, c.bot.SelfID(), time.Now().Unix())
 		err = conn.WriteMessage(websocket.TextMessage, []byte(handshake))
 		if err != nil {
 			log.Warnf("反向WebSocket 握手时出现错误: %v", err)

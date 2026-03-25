@@ -421,7 +421,9 @@ func LoginInteract() {
 func WaitSignal() {
 	go func() {
 		selfupdate.CheckUpdate()
-		selfdiagnosis.NetworkDiagnosis(cli)
+		if cli != nil {
+			selfdiagnosis.NetworkDiagnosis(cli)
+		}
 	}()
 
 	<-global.SetupMainSignalHandler()

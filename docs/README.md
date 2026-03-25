@@ -10,3 +10,9 @@
 
 - <https://docs.go-cqhttp.org>
 - <https://ishkong.github.io/go-cqhttp-docs>
+
+本分支额外保留了本地 Weixin-only 文档：
+
+- [配置说明](/home/server/gocq-wechat/docs/config.md)
+- [快速开始](/home/server/gocq-wechat/docs/quick_start.md)
+- [API 对照表](/home/server/gocq-wechat/docs/weixin_api_matrix.md)

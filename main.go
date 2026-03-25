@@ -17,7 +17,7 @@ func main() {
 	terminal.SetTitle()
 	gocq.InitBase()
 	gocq.PrepareData()
-	gocq.LoginInteract()
+	gocq.StartWeixin()
 	_ = terminal.DisableQuickEdit()
 	_ = terminal.EnableVT100()
 	gocq.WaitSignal()
