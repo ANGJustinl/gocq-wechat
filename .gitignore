@@ -12,6 +12,7 @@ internal/btree/*.db
 
 # binary builds
 go-cqhttp
+gen
 *.exe
 
 # macos
